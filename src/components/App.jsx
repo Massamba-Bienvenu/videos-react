@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import SearchBar from "./SearchBar";
+import youtube from "../apis/youtube.js";
 
 export class App extends Component {
   state = {
+    videos: [],
     term: "",
   };
 
@@ -10,10 +12,18 @@ export class App extends Component {
     this.setState({ term: event.target.value });
   };
 
+  onTermSubmit = async (term) => {
+    const response = await youtube.get("/search", {
+      params: {
+        q: term,
+      },
+    });
+    this.setState({ videos: response.data.items });
+  };
+
   handleOnFormSubmit = (event) => {
     event.preventDefault();
-    // TO DO MAKE SURE WE CALL CALL BACK FROM PRESENT COMP
-    
+    this.onTermSubmit(this.state.term);
   };
 
   render() {
@@ -24,6 +34,7 @@ export class App extends Component {
           OnInputChange={this.handleOnInputChange}
           onFormSubmit={this.handleOnFormSubmit}
         />
+        I have: {this.state.videos.length}
       </div>
     );
   }

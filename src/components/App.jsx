@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import SearchBar from "./SearchBar";
+import VideosList from "./VideosList";
 import youtube from "../apis/youtube.js";
 
 export class App extends Component {
@@ -34,7 +35,7 @@ export class App extends Component {
           OnInputChange={this.handleOnInputChange}
           onFormSubmit={this.handleOnFormSubmit}
         />
-        I have: {this.state.videos.length}
+        <VideosList videos={this.state.videos} />
       </div>
     );
   }
